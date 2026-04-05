@@ -20,7 +20,7 @@ local opts = { force = true, all = false }
 local M = {}
 
 local function get_parser_from_markdown_info_string(injection_alias)
-  local match = vim.filetype.match { filename = "a." .. injection_alias }
+  local match = vim.filetype.match({ filename = "a." .. injection_alias })
   return match or non_filetype_match_injection_language_aliases[injection_alias] or injection_alias
 end
 

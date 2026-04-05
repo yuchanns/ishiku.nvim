@@ -1,6 +1,7 @@
 local state = require("ishiku.state")
 local util = require("ishiku.util")
 local Package = require("ishiku.package")
+local compat = require("ishiku.compat")
 local settings = require("ishiku.settings")
 
 local M = {}
@@ -161,16 +162,6 @@ function M.all()
   return specs()
 end
 
-local function version_keys()
-  local version = vim.version()
-  return {
-    ("nvim-%d.%d.%d"):format(version.major, version.minor, version.patch),
-    ("nvim-%d.%d"):format(version.major, version.minor),
-    ("nvim-%d"):format(version.major),
-    "default",
-  }
-end
-
 local function resolve_revision(info)
   if type(info) ~= "table" then
     return nil
@@ -185,7 +176,7 @@ local function resolve_revision(info)
     return nil
   end
 
-  for _, key in ipairs(version_keys()) do
+  for _, key in ipairs(compat.version_keys()) do
     local revision = revisions[key]
     if type(revision) == "string" and revision ~= "" then
       return revision

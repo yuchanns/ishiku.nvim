@@ -1,6 +1,7 @@
 local command = require("ishiku.command")
 local installer = require("ishiku.installer")
-local query_compat = require("ishiku.query_compat")
+local compat = require("ishiku.compat")
+local query_compat = require("ishiku.compat.query")
 local registry = require("ishiku.registry")
 local settings = require("ishiku.settings")
 local state = require("ishiku.state")
@@ -12,8 +13,8 @@ local M = {}
 M.has_setup = false
 
 local function assert_supported_nvim()
-  local version = vim.version()
-  if version.major ~= 0 or version.minor < 11 then
+  local version = compat.version()
+  if version.major ~= 0 or not compat.has(11) then
     error("ishiku.nvim requires Neovim 0.11+.")
   end
 end

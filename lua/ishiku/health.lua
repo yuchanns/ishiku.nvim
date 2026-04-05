@@ -1,5 +1,6 @@
 local health = vim.health or require("health")
 
+local compat = require("ishiku.compat")
 local registry = require("ishiku.registry")
 local settings = require("ishiku.settings")
 local state = require("ishiku.state")
@@ -18,11 +19,11 @@ end
 function M.check()
   health.start("ishiku.nvim")
 
-  if vim.fn.has("nvim-0.12") == 1 then
+  if compat.has(11) then
     health.ok(("Neovim version: %d.%d"):format(vim.version().major, vim.version().minor))
   else
-    health.error("Neovim 0.12+ is required.", {
-      "Current runtime is older than 0.12.",
+    health.error("Neovim 0.11+ is required.", {
+      "Current runtime is older than 0.11.",
     })
     return
   end
