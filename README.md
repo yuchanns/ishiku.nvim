@@ -7,8 +7,8 @@ auto-starts Treesitter for supported buffers, and provides a `textobjects` modul
 compatible with the common `nvim-treesitter` workflow.
 
 Use it together with `ishiku-registry`.
-
-This repository is entirely AI-generated.
+>[!CAUTION]
+> This repository is **entirely AI-generated**.
 
 ## Features
 
