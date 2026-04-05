@@ -6,6 +6,7 @@ local DEFAULT_SETTINGS = {
   install_root_dir = util.joinpath(vim.fn.stdpath("data"), "ishiku"),
   ensure_installed = {},
   auto_install = false,
+  auto_start = true,
   sync_install = false,
   prefer_git = vim.fn.has("win32") == 1,
   max_concurrent_installers = 4,

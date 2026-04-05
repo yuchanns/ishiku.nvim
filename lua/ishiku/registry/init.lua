@@ -61,6 +61,12 @@ function M.refresh()
   return refreshed
 end
 
+function M.activate()
+  for _, source in ipairs(settings.current.registries or {}) do
+    util.ensure_runtimepath(ensure_registry_checkout(source))
+  end
+end
+
 local function load_lockfile()
   if not lockfile then
     lockfile = {}

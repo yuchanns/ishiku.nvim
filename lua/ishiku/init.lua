@@ -1,5 +1,6 @@
 local command = require("ishiku.command")
 local installer = require("ishiku.installer")
+local registry = require("ishiku.registry")
 local settings = require("ishiku.settings")
 local state = require("ishiku.state")
 local util = require("ishiku.util")
@@ -12,6 +13,44 @@ local function assert_supported_nvim()
   if vim.fn.has("nvim-0.12") == 0 then
     error("ishiku.nvim requires Neovim 0.12+.")
   end
+end
+
+local function start_treesitter(bufnr)
+  if not vim.api.nvim_buf_is_valid(bufnr) or not vim.api.nvim_buf_is_loaded(bufnr) then
+    return
+  end
+
+  local bt = vim.bo[bufnr].buftype
+  if bt ~= "" and bt ~= "acwrite" then
+    return
+  end
+
+  local ft = vim.bo[bufnr].filetype
+  if ft == "" then
+    return
+  end
+
+  local lang = vim.treesitter.language.get_lang(ft)
+  if not lang or lang == "" then
+    return
+  end
+
+  pcall(vim.treesitter.start, bufnr, lang)
+end
+
+local function setup_auto_start()
+  vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile", "FileType" }, {
+    group = vim.api.nvim_create_augroup("ishiku-auto-start", { clear = true }),
+    callback = function(args)
+      start_treesitter(args.buf)
+    end,
+  })
+
+  vim.schedule(function()
+    for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+      start_treesitter(bufnr)
+    end
+  end)
 end
 
 local function setup_auto_install()
@@ -39,10 +78,15 @@ function M.setup(opts)
   settings.set(opts or {})
   state.ensure()
   util.ensure_runtimepath(settings.current.install_root_dir)
+  registry.activate()
   command.register()
 
   if settings.current.auto_install then
     setup_auto_install()
+  end
+
+  if settings.current.auto_start then
+    setup_auto_start()
   end
 
   local ensure_installed = settings.current.ensure_installed
