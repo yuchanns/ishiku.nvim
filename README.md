@@ -154,3 +154,9 @@ When migrating from `nvim-treesitter` to `vim.treesitter`:
 - `ishiku.nvim` auto-starts Treesitter and can restore common textobject flows.
 - Builtin Neovim languages may already ship parsers and queries; registry data
   extends the runtime for languages Neovim does not bundle.
+
+## Credits
+
+- `nvim-treesitter` for the Treesitter workflow and ecosystem conventions that
+  shaped this plugin.
+- `mason.nvim` for the package management UX and operational model inspiration.
