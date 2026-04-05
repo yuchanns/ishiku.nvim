@@ -74,7 +74,7 @@ local DEFAULT_SETTINGS = {
     "zig",
   },
   ui = {
-    border = nil,
+    border = "rounded",
     width = 0.8,
     height = 0.85,
     icons = {
