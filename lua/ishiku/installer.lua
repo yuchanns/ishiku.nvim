@@ -527,14 +527,14 @@ function M.uninstall(lang)
 end
 
 function M.ensure_installed(langs)
-  local missing = {}
+  local targets = {}
   for _, lang in ipairs(normalize_langs(langs)) do
-    if registry.has(lang) and not state.is_installed(lang) then
-      table.insert(missing, lang)
+    if registry.has(lang) and (not state.is_installed(lang) or registry.outdated(lang)) then
+      table.insert(targets, lang)
     end
   end
-  if #missing > 0 then
-    M.install_many(missing, {})
+  if #targets > 0 then
+    M.install_many(targets, { force = true })
   end
 end
 

@@ -1,6 +1,6 @@
 # ishiku.nvim
 
-Neovim 0.12+ Treesitter parser manager and runtime integration for `vim.treesitter`.
+Neovim 0.11 and 0.12 Treesitter parser manager and runtime integration for `vim.treesitter`.
 
 `ishiku.nvim` manages parser installation, activates registry-provided runtime files,
 auto-starts Treesitter for supported buffers, and provides a `textobjects` module
@@ -129,7 +129,7 @@ The query data for textobjects lives in `ishiku-registry` under
 
 ## Requirements
 
-- Neovim 0.12+
+- Neovim 0.11 or 0.12
 - `git`
 - one of: `cc`, `gcc`, `clang`, `cl`, `zig`
 - `tree-sitter` and `node` for parsers that must be generated from grammar

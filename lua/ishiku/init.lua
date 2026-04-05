@@ -12,8 +12,9 @@ local M = {}
 M.has_setup = false
 
 local function assert_supported_nvim()
-  if vim.fn.has("nvim-0.12") == 0 then
-    error("ishiku.nvim requires Neovim 0.12+.")
+  local version = vim.version()
+  if version.major ~= 0 or version.minor < 11 then
+    error("ishiku.nvim requires Neovim 0.11+.")
   end
 end
 
@@ -72,10 +73,11 @@ local function setup_auto_install()
       if not lang then
         return
       end
-      if state.is_installed(lang) then
+      local installed = state.is_installed(lang)
+      if installed and not registry.outdated(lang) then
         return
       end
-      installer.install(lang, {})
+      installer.install(lang, { force = installed })
     end,
   })
 end
