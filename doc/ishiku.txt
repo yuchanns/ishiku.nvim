@@ -1,0 +1,73 @@
+*ishiku.txt*  Install and manage Treesitter parsers with |vim.treesitter|
+
+==============================================================================
+INTRODUCTION                                                  *ishiku-intro*
+
+ishiku.nvim is a Treesitter parser manager for Neovim 0.12+.
+
+It focuses on the missing operational layer after `nvim-treesitter`:
+
+- parser registry
+- source checkout
+- parser compilation
+- install state tracking
+- lightweight UI and commands
+
+==============================================================================
+SETUP                                                          *ishiku-setup*
+
+>
+  require("ishiku").setup({
+    ensure_installed = { "lua", "vim", "python" },
+    auto_install = true,
+    sync_install = false,
+    registries = { "github:yuchanns/ishiku-registry" },
+  })
+<
+
+Configuration fields:
+
+- `install_root_dir`:
+  Directory added to 'runtimepath' and used to store parser artifacts.
+- `ensure_installed`:
+  Parsers to install after setup.
+- `auto_install`:
+  Install a missing parser automatically on `FileType`.
+- `sync_install`:
+  Run installation in a blocking way during setup/command execution.
+- `compilers`:
+  Ordered compiler candidates.
+
+==============================================================================
+COMMANDS                                                    *ishiku-commands*
+
+- `:Ishiku`
+- `:IshikuInstall {parser} ...`
+- `:IshikuUpdate [parser] ...`
+- `:IshikuUninstall {parser} ...`
+- `:IshikuInfo`
+- `:IshikuLog`
+- `:IshikuRegistryUpdate`
+
+==============================================================================
+UI                                                                 *ishiku-ui*
+
+Inside `:Ishiku`:
+
+- `i` install parser under cursor
+- `u` update parser under cursor
+- `X` uninstall parser under cursor
+- `<CR>` show package details
+- `l` open log
+- `g` refresh
+- `q` close
+
+==============================================================================
+NOTES                                                           *ishiku-notes*
+
+- `ishiku.nvim` requires Neovim 0.12+.
+- Parser loading is still handled by `vim.treesitter`.
+- Parsers are compiled locally from source; there are no prebuilt binaries.
+- Install receipts and logs are stored under ishiku's install root.
+
+vim:tw=78:ts=8:noet:ft=help:norl:
