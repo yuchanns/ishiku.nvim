@@ -4,6 +4,7 @@ local query_compat = require("ishiku.query_compat")
 local registry = require("ishiku.registry")
 local settings = require("ishiku.settings")
 local state = require("ishiku.state")
+local textobjects = require("ishiku.textobjects")
 local util = require("ishiku.util")
 
 local M = {}
@@ -81,6 +82,7 @@ function M.setup(opts)
   util.ensure_runtimepath(settings.current.install_root_dir)
   query_compat.register()
   registry.activate()
+  textobjects.setup(settings.current.textobjects)
   command.register()
 
   if settings.current.auto_install then
