@@ -37,6 +37,11 @@ local function start_treesitter(bufnr)
     return
   end
 
+  local disable = settings.current.disable
+  if disable and disable(lang, bufnr) then
+    return
+  end
+
   pcall(vim.treesitter.start, bufnr, lang)
 end
 

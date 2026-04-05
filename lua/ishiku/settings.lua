@@ -14,6 +14,7 @@ local DEFAULT_SETTINGS = {
     "github:yuchanns/ishiku-registry",
   },
   parser_aliases = {},
+  disable = nil,
   textobjects = {
     select = {
       enable = false,
