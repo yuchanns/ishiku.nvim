@@ -6,7 +6,7 @@ Neovim 0.11 and 0.12 Treesitter parser manager and runtime integration for `vim.
 auto-starts Treesitter for supported buffers, and provides a `textobjects` module
 compatible with the common `nvim-treesitter` workflow.
 
-Use it together with `ishiku-registry`.
+Use it together with [`ishiku-registry`](https://github.com/yuchanns/ishiku-registry).
 >[!CAUTION]
 > This repository is **entirely AI-generated**.
 
@@ -114,7 +114,7 @@ require("ishiku").setup {
 }
 ```
 
-The query data for textobjects lives in `ishiku-registry` under
+The query data for textobjects lives in [`ishiku-registry`](https://github.com/yuchanns/ishiku-registry) under
 `queries/<lang>/textobjects.scm`.
 
 ## Commands
