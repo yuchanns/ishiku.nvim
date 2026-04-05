@@ -26,6 +26,12 @@ end
 
 local function get_first_capture_node(match, capture_id)
   local captures = match[capture_id]
+  if captures == nil then
+    return nil
+  end
+  if type(captures) == "userdata" then
+    return captures
+  end
   if type(captures) ~= "table" then
     return nil
   end
