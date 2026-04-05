@@ -3,7 +3,8 @@
 ==============================================================================
 INTRODUCTION                                                  *ishiku-intro*
 
-ishiku.nvim is a Treesitter parser manager for Neovim 0.12+.
+ishiku.nvim is a Treesitter parser manager and runtime integration layer for
+Neovim 0.11 and 0.12.
 
 It focuses on the missing operational layer after `nvim-treesitter`:
 
@@ -11,7 +12,11 @@ It focuses on the missing operational layer after `nvim-treesitter`:
 - source checkout
 - parser compilation
 - install state tracking
+- runtime query activation
+- textobjects on top of `vim.treesitter`
 - lightweight UI and commands
+
+Use it together with `ishiku-registry`.
 
 ==============================================================================
 SETUP                                                          *ishiku-setup*
@@ -32,11 +37,63 @@ Configuration fields:
 - `ensure_installed`:
   Parsers to install after setup.
 - `auto_install`:
-  Install a missing parser automatically on `FileType`.
+  Install a missing parser automatically on `FileType`. If an installed parser
+  is outdated for the current Neovim version, ishiku reinstalls it.
+- `auto_start`:
+  Start `vim.treesitter` automatically for supported buffers.
 - `sync_install`:
   Run installation in a blocking way during setup/command execution.
+- `registries`:
+  Registry sources. The registry provides parser metadata and runtime queries.
+- `disable`:
+  Predicate called before `vim.treesitter.start()`. Return `true` to skip a
+  buffer, for example for large files.
 - `compilers`:
   Ordered compiler candidates.
+
+==============================================================================
+TEXTOBJECTS                                              *ishiku-textobjects*
+
+ishiku.nvim can restore common `nvim-treesitter-textobjects` workflows on top
+of `vim.treesitter`.
+
+Supported modules:
+
+- `select`
+- `move`
+- `swap`
+- `repeatable_move`
+- `incremental_selection`
+- `lsp_interop`
+
+>
+  require("ishiku").setup({
+    textobjects = {
+      select = {
+        enable = true,
+        lookahead = true,
+        keymaps = {
+          ["af"] = "@function.outer",
+          ["if"] = "@function.inner",
+          ["ac"] = "@class.outer",
+          ["ic"] = "@class.inner",
+        },
+      },
+      incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_selection = "gnn",
+          node_incremental = ".",
+          scope_incremental = "grc",
+          node_decremental = "grm",
+        },
+      },
+    },
+  })
+<
+
+The query data for textobjects is provided by `ishiku-registry` under
+`queries/<lang>/textobjects.scm`.
 
 ==============================================================================
 COMMANDS                                                    *ishiku-commands*
@@ -65,8 +122,12 @@ Inside `:Ishiku`:
 ==============================================================================
 NOTES                                                           *ishiku-notes*
 
-- `ishiku.nvim` requires Neovim 0.12+.
+- `ishiku.nvim` requires Neovim 0.11+.
 - Parser loading is still handled by `vim.treesitter`.
+- Builtin parser revisions may differ between Neovim 0.11 and 0.12. Registry
+  lockfile entries can pin parser revisions by Neovim version.
+- Compatibility shims for query directives and incremental selection live under
+  `lua/ishiku/compat/`.
 - Parsers are compiled locally from source; there are no prebuilt binaries.
 - Install receipts and logs are stored under ishiku's install root.
 
