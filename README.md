@@ -26,12 +26,12 @@ This repository is entirely AI-generated.
 ## Setup
 
 ```lua
-require("ishiku").setup({
+require("ishiku").setup {
   ensure_installed = { "lua", "vim", "python" },
   auto_install = true,
   sync_install = false,
   registries = { "github:yuchanns/ishiku-registry" },
-})
+}
 ```
 
 ## Textobjects
@@ -40,7 +40,7 @@ require("ishiku").setup({
 `nvim-treesitter-textobjects`.
 
 ```lua
-require("ishiku").setup({
+require("ishiku").setup {
   ensure_installed = { "lua", "vim", "go", "rust", "python", "typescript" },
   auto_install = true,
   textobjects = {
@@ -111,7 +111,7 @@ require("ishiku").setup({
       },
     },
   },
-})
+}
 ```
 
 The query data for textobjects lives in `ishiku-registry` under
